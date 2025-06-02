@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Final Assignment </title>
+<link href="css/layout.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<div class="container">
+    <nav class="navbar">
+      <div class="logo"><a href="OnlyNike.html">OnlyNike</a></div>
+      <ul class="nav-links">
+        <li><a href="OnlyNike.html" class="transition-link">Home</a></li>
+        <li><a href="store.html" class="transition-link">Store</a></li>
+        <li><a href="#" class="transition-link">About Us</a></li>
+        <li><a href="Contact_us.html" class="transition-link">Contact Us</a></li>
+		<li><a href="cart.html" class="cart-button">🛒 Cart (<span id="cart-count">0</span>)</a></li>  
+      </ul>
+    </nav>
+
+    <div class="content">
+      <h2 class="subtitle">THE PURE COMFORT IS HERE.</h2>
+      <h1 class="title"><span>NIKE AIR MAX 97</span></h1>
+	  <p class="color">CORE BLACK</p>
+      <div class="shoe-image">
+        <img src="img/nike2.png" alt="Nike Shoe">
+      </div>
+      <div class="buttons">
+        <button class="btn dark">RESERVE NOW</button>
+        <button class="btn light">LEARN MORE</button>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <footer class="footer">
+  	<p>&copy; 2025 ONLYNIKE. All rights reserved.</p>
+  </footer>
+  
+	<script>
+// 页面加载时淡入效果
+window.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('page-enter');
+});
+
+// 链接点击时淡出效果
+document.querySelectorAll('a').forEach(link => {
+  // 只处理内部链接
+  if (link.href && link.origin === window.location.origin) {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+
+      document.body.classList.remove('page-enter');
+      document.body.classList.add('page-exit');
+
+      // 可选：添加炫酷背景变化
+      document.body.classList.add('cool-background');
+
+      setTimeout(() => {
+        window.location.href = href;
+      }, 1000); // 与CSS中的1s过渡时间匹配
+    });
+  }
+});
+</script>
+	
+	
+	<script>
+  document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', () => {
+      const name = button.dataset.name;
+      const price = parseFloat(button.dataset.price);
+      const img = button.dataset.img;
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ name, price, img, quantity: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} 已加入购物车`);
+    });
+  });
+</script>
+	
+	
+	<script>
+  document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', () => {
+      const name = button.dataset.name;
+      const price = parseFloat(button.dataset.price);
+      const img = button.dataset.img;
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ name, price, img, quantity: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} 已加入购物车`);
+    });
+  });
+</script>
+	
+	<script>
+  // 页面加载时淡入效果
+window.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('page-enter');
+  updateCartCount(); // 加载时立即更新数量
+});
+
+// 链接点击淡出效果
+document.querySelectorAll('a').forEach(link => {
+  if (link.href && link.origin === window.location.origin) {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      document.body.classList.remove('page-enter');
+      document.body.classList.add('page-exit');
+      document.body.classList.add('cool-background');
+      setTimeout(() => {
+        window.location.href = href;
+      }, 1000);
+    });
+  }
+});
+
+// 添加到购物车按钮逻辑
+document.querySelectorAll('.add-to-cart').forEach(button => {
+  button.addEventListener('click', () => {
+    const name = button.dataset.name;
+    const price = parseFloat(button.dataset.price);
+    const img = button.dataset.img;
+
+    // 获取购物车并初始化
+    let cart = [];
+    try {
+      cart = JSON.parse(localStorage.getItem('cart')) || [];
+    } catch (e) {
+      cart = [];
+    }
+
+    // 查找是否已存在
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ name, price, img, quantity: 1 });
+    }
+
+    // 保存到 localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // 更新购物车数量
+    updateCartCount();
+
+    alert(`${name} 已加入购物车`);
+  });
+});
+
+// 更新购物车数量显示
+function updateCartCount() {
+  let totalQuantity = 0;
+  try {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    totalQuantity = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+  } catch (e) {
+    totalQuantity = 0;
+  }
+
+  const cartCountElement = document.getElementById('cart-count');
+  if (cartCountElement) {
+    cartCountElement.textContent = totalQuantity;
+  }
+}
+</script>
+</body>
+</html>
