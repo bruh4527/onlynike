@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Contact_us</title>
+<link href="css/layout_contact.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<div class="header">
+		<nav class="navbar">
+		  <div class="logo"><a href="OnlyNike.html">OnlyNike</a></div>
+		  <ul class="nav-links">
+			<li><a href="OnlyNike.html">Home</a></li>
+			<li><a href="store.html">Store</a></li>
+			<li><a href="#">About Us</a></li>
+			<li><a href="Contact_us.html">Contact Us</a></li>
+			<li><a href="cart.html" class="cart-button">🛒 Cart (<span id="cart-count">0</span>)</a></li>  
+		  </ul>
+		</nav>
+		<div class="container">
+		<div class="image-box">
+		  <img src="img/f8c838131279693.6196ce23147d0.png" alt="Side Visual" />
+		</div>
+
+		<div class="form-section">
+		  <div class="contact-header">
+			<h1>Contact<br><span>Us</span></h1>
+			<p>It is very important for us to keep in touch with you, so we are always ready to answer any question that interests you. Shoot!</p>
+		  </div>
+
+		  <form class="contact-form">
+			<input type="text" placeholder="Your Name" />
+			<input type="email" placeholder="Your Email" />
+			<textarea placeholder="Share your thoughts" rows="4"></textarea>
+			<button type="submit" class="glitch-button">SHARE YOUR FEEDBACK</button>
+		  </form>
+		</div>
+	  </div>
+	</div>
+	
+	<script>
+// 页面加载时淡入效果
+window.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('page-enter');
+});
+
+// 链接点击时淡出效果
+document.querySelectorAll('a').forEach(link => {
+  // 只处理内部链接
+  if (link.href && link.origin === window.location.origin) {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+
+      document.body.classList.remove('page-enter');
+      document.body.classList.add('page-exit');
+
+      // 可选：添加炫酷背景变化
+      document.body.classList.add('cool-background');
+
+      setTimeout(() => {
+        window.location.href = href;
+      }, 1000); // 与CSS中的1s过渡时间匹配
+    });
+  }
+});
+</script>
+	
+	
+	<script>
+  document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', () => {
+      const name = button.dataset.name;
+      const price = parseFloat(button.dataset.price);
+      const img = button.dataset.img;
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ name, price, img, quantity: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} 已加入购物车`);
+    });
+  });
+</script>
+	
+	
+	<script>
+  document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', () => {
+      const name = button.dataset.name;
+      const price = parseFloat(button.dataset.price);
+      const img = button.dataset.img;
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ name, price, img, quantity: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} 已加入购物车`);
+    });
+  });
+</script>
+	
+	<script>
+  // 页面加载时淡入效果
+window.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('page-enter');
+  updateCartCount(); // 加载时立即更新数量
+});
+
+// 链接点击淡出效果
+document.querySelectorAll('a').forEach(link => {
+  if (link.href && link.origin === window.location.origin) {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      document.body.classList.remove('page-enter');
+      document.body.classList.add('page-exit');
+      document.body.classList.add('cool-background');
+      setTimeout(() => {
+        window.location.href = href;
+      }, 1000);
+    });
+  }
+});
+
+// 添加到购物车按钮逻辑
+document.querySelectorAll('.add-to-cart').forEach(button => {
+  button.addEventListener('click', () => {
+    const name = button.dataset.name;
+    const price = parseFloat(button.dataset.price);
+    const img = button.dataset.img;
+
+    // 获取购物车并初始化
+    let cart = [];
+    try {
+      cart = JSON.parse(localStorage.getItem('cart')) || [];
+    } catch (e) {
+      cart = [];
+    }
+
+    // 查找是否已存在
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ name, price, img, quantity: 1 });
+    }
+
+    // 保存到 localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // 更新购物车数量
+    updateCartCount();
+
+    alert(`${name} 已加入购物车`);
+  });
+});
+
+// 更新购物车数量显示
+function updateCartCount() {
+  let totalQuantity = 0;
+  try {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    totalQuantity = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+  } catch (e) {
+    totalQuantity = 0;
+  }
+
+  const cartCountElement = document.getElementById('cart-count');
+  if (cartCountElement) {
+    cartCountElement.textContent = totalQuantity;
+  }
+}
+</script>
+</body>
+</html>

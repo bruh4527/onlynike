@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>about_us</title>
+<link href="css/layout_about.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<div class="container">
+    <nav class="navbar">
+      <div class="logo">OnlyNike</div>
+      <ul class="nav-links">
+        <li><a href="OnlyNike.html">Home</a></li>
+        <li><a href="store.html">Store</a></li>
+        <li><a href="About_us.html">About Us</a></li>
+        <li><a href="Contact_us.html">Contact Us</a></li>
+        <li><a href="cart.html" class="cart-button">🛒 Cart (<span id="cart-count">0</span>)</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero-section">
+      <img src="img/deal-page-467x316-nike.jpg" alt="Young people in Nike outfits" class="hero-image">
+      <div class="hero-text">
+        <h1>OnlyNike</h1>
+        <p id="slogan-text"></p>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <h2>Who We Are</h2>
+      <p>OnlyNike brings together the latest Nike products and the pulse of pop culture. We’re a hub for the youth to express their style with confidence.</p>
+      <img src="img/paul-steuber-rs11hu-bkTc-unsplash.jpg" alt="Our Team" class="section-image">
+    </section>
+
+    <section class="sustainability-section">
+      <h2>Sustainability</h2>
+      <p>We're committed to promoting eco-friendly Nike lines and reducing environmental impact—because the future matters.</p>
+      <img src="img/mathieu-chassara-47KbIvcklh8-unsplash.jpg" alt="Sustainability" class="section-image">
+    </section>
+
+    <section class="diversity-section">
+      <h2>Diversity and Inclusion</h2>
+      <p>
+        OnlyNike celebrates diversity by offering a platform where everyone, regardless of background or style, can find products that resonate with their unique identity.
+      </p>
+    </section>
+  </div>
+
+  <script>
+    // 淡入淡出动画
+    window.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('page-enter');
+    });
+    document.querySelectorAll('a').forEach(link => {
+      if (link.href && link.origin === window.location.origin) {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const href = link.getAttribute('href');
+          document.body.classList.remove('page-enter');
+          document.body.classList.add('page-exit');
+          document.body.classList.add('cool-background');
+          setTimeout(() => {
+            window.location.href = href;
+          }, 1000);
+        });
+      }
+    });
+
+    // 加入购物车（备用）
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', () => {
+        const name = button.dataset.name;
+        const price = parseFloat(button.dataset.price);
+        const img = button.dataset.img;
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existing = cart.find(item => item.name === name);
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          cart.push({ name, price, img, quantity: 1 });
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert(`${name} 已加入购物车`);
+      });
+    });
+
+    // 打字机动画
+    const text = "Made for Now, Built for What's Next.";
+    let i = 0;
+    function typeWriter() {
+      if (i < text.length) {
+        document.getElementById("slogan-text").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 50);
+      }
+    }
+    window.onload = typeWriter;
+
+    // ScrollReveal 动画
+    ScrollReveal().reveal('.about-section', { delay: 200, distance: '50px', origin: 'bottom', duration: 800 });
+    ScrollReveal().reveal('.sustainability-section', { delay: 300, distance: '50px', origin: 'left', duration: 800 });
+    ScrollReveal().reveal('.diversity-section', { delay: 400, distance: '50px', origin: 'right', duration: 800 });
+
+    // 鼠标拖尾效果
+    document.addEventListener('mousemove', function(e){
+      const ball = document.createElement('div');
+      ball.classList.add('trail-ball');
+      ball.style.left = `${e.clientX}px`;
+      ball.style.top = `${e.clientY}px`;
+      document.body.appendChild(ball);
+      setTimeout(() => ball.remove(), 600);
+    });
+  </script>
+	
+	<script>
+  // 页面加载时淡入效果
+window.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('page-enter');
+  updateCartCount(); // 加载时立即更新数量
+});
+
+// 链接点击淡出效果
+document.querySelectorAll('a').forEach(link => {
+  if (link.href && link.origin === window.location.origin) {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      document.body.classList.remove('page-enter');
+      document.body.classList.add('page-exit');
+      document.body.classList.add('cool-background');
+      setTimeout(() => {
+        window.location.href = href;
+      }, 1000);
+    });
+  }
+});
+
+// 添加到购物车按钮逻辑
+document.querySelectorAll('.add-to-cart').forEach(button => {
+  button.addEventListener('click', () => {
+    const name = button.dataset.name;
+    const price = parseFloat(button.dataset.price);
+    const img = button.dataset.img;
+
+    // 获取购物车并初始化
+    let cart = [];
+    try {
+      cart = JSON.parse(localStorage.getItem('cart')) || [];
+    } catch (e) {
+      cart = [];
+    }
+
+    // 查找是否已存在
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ name, price, img, quantity: 1 });
+    }
+
+    // 保存到 localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // 更新购物车数量
+    updateCartCount();
+
+    alert(`${name} 已加入购物车`);
+  });
+});
+
+// 更新购物车数量显示
+function updateCartCount() {
+  let totalQuantity = 0;
+  try {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    totalQuantity = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+  } catch (e) {
+    totalQuantity = 0;
+  }
+
+  const cartCountElement = document.getElementById('cart-count');
+  if (cartCountElement) {
+    cartCountElement.textContent = totalQuantity;
+  }
+}
+</script>
+	
+	
+</body>
+</html>
